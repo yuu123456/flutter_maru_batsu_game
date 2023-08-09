@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../view_models/game_view_model.dart';
 
 class GameView extends StatefulWidget {
-  const GameView({super.key});
+  const GameView({Key? key}) : super(key: key);
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -67,7 +67,7 @@ class MenuDrawer extends StatelessWidget {
 
 class GameStatusView extends StatefulWidget {
   final GameViewModel viewModel;
-  const GameStatusView({super.key, required this.viewModel});
+  const GameStatusView({Key? key, required this.viewModel}) : super(key: key);
   @override
   _GameStatusViewState createState() => _GameStatusViewState();
 }
@@ -87,7 +87,7 @@ class _GameStatusViewState extends State<GameStatusView> {
 
 class GameBoardView extends StatefulWidget {
   final GameViewModel viewModel;
-  const GameBoardView({super.key, required this.viewModel});
+  const GameBoardView({Key? key, required this.viewModel}) : super(key: key);
   @override
   _GameBoardViewState createState() => _GameBoardViewState();
 }
@@ -126,7 +126,7 @@ class _GameBoardViewState extends State<GameBoardView> {
 
 class GameResetButton extends StatefulWidget {
   final GameViewModel viewModel;
-  const GameResetButton({super.key, required this.viewModel});
+  const GameResetButton({Key? key, required this.viewModel}) : super(key: key);
   @override
   _GameResetButtonState createState() => _GameResetButtonState();
 }
