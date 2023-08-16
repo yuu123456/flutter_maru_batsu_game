@@ -17,10 +17,13 @@ class GameView extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            GameStatusView(),
+            Spacer(),
+            Expanded(child: GameStatusView()),
+            // Spacer(),
             GameBoardView(),
             SizedBox(height: 20),
             GameResetButton(),
+            Spacer(),
           ],
         ),
       ),
