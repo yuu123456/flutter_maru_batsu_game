@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
-import '../view_models/game_view_model.dart';
+import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GameView extends StatefulWidget {
+class GameView extends ConsumerWidget {
   const GameView({Key? key}) : super(key: key);
 
   @override
-  _GameViewState createState() => _GameViewState();
-}
-
-class _GameViewState extends State<GameView> {
-  GameViewModel _viewModel = GameViewModel();
-
-  @override
-  void initState() {
-    super.initState();
-    // 一度だけ行いたい処理
-    _viewModel = GameViewModel();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('まるばつゲーム'),
       ),
       drawer: const MenuDrawer(),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            GameStatusView(viewModel: _viewModel),
-            GameBoardView(viewModel: _viewModel),
-            const SizedBox(height: 20),
-            GameResetButton(viewModel: _viewModel),
+            Spacer(),
+            Expanded(child: GameStatusView()),
+            GameBoardView(),
+            SizedBox(height: 20),
+            GameResetButton(),
+            Spacer(),
           ],
         ),
       ),
@@ -65,36 +54,28 @@ class MenuDrawer extends StatelessWidget {
   }
 }
 
-class GameStatusView extends StatefulWidget {
-  final GameViewModel viewModel;
-  const GameStatusView({Key? key, required this.viewModel}) : super(key: key);
-  @override
-  _GameStatusViewState createState() => _GameStatusViewState();
-}
+class GameStatusView extends ConsumerWidget {
+  const GameStatusView({super.key});
 
-class _GameStatusViewState extends State<GameStatusView> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final gameState = ref.watch(gameViewModelNotifierProvider);
     return Text(
-      widget.viewModel.statusMessage.message,
+      gameState.statusMessage.message,
       style: TextStyle(
-        fontSize: widget.viewModel.statusMessage.fontSize,
-        color: widget.viewModel.statusMessage.color,
+        fontSize: gameState.statusMessage.fontSize,
+        color: gameState.statusMessage.color,
       ),
     );
   }
 }
 
-class GameBoardView extends StatefulWidget {
-  final GameViewModel viewModel;
-  const GameBoardView({Key? key, required this.viewModel}) : super(key: key);
-  @override
-  _GameBoardViewState createState() => _GameBoardViewState();
-}
+class GameBoardView extends ConsumerWidget {
+  const GameBoardView({super.key});
 
-class _GameBoardViewState extends State<GameBoardView> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final gameState = ref.watch(gameViewModelNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -106,14 +87,14 @@ class _GameBoardViewState extends State<GameBoardView> {
               for (int col = 0; col < 3; col++)
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      widget.viewModel.makeMove(row, col);
-                    });
+                    final notifier =
+                        ref.read(gameViewModelNotifierProvider.notifier);
+                    notifier.makeMove(row, col);
                   },
                   style:
                       ElevatedButton.styleFrom(fixedSize: const Size(80, 80)),
                   child: Text(
-                    widget.viewModel.board[row][col],
+                    gameState.board[row][col],
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
@@ -124,21 +105,17 @@ class _GameBoardViewState extends State<GameBoardView> {
   }
 }
 
-class GameResetButton extends StatefulWidget {
-  final GameViewModel viewModel;
-  const GameResetButton({Key? key, required this.viewModel}) : super(key: key);
-  @override
-  _GameResetButtonState createState() => _GameResetButtonState();
-}
+class GameResetButton extends ConsumerWidget {
+  const GameResetButton({super.key});
 
-class _GameResetButtonState extends State<GameResetButton> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final viewModel = ref.watch(gameViewModelNotifierProvider.notifier);
+
     return ElevatedButton(
         onPressed: () {
-          setState(() {
-            widget.viewModel.resetGame();
-          });
+          final notifier = ref.read(gameViewModelNotifierProvider.notifier);
+          notifier.resetGame();
         },
         child: const Text("リセット"));
   }

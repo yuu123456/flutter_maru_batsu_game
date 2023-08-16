@@ -1,57 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/models/status_message.dart';
-
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/game_model.dart';
 
-class GameViewModel {
-  final GameModel _model = GameModel();
-  // getter 読み取りのみ、書き込みは、別途_model.プロパティ名に代入する
-  List<List<String>> get board => _model.board;
-  StatusMessage get statusMessage => _model.statusMessage;
+part 'game_view_model.g.dart';
+
+@riverpod
+class GameViewModelNotifier extends _$GameViewModelNotifier {
+  @override
+  GameModel build() {
+    return GameModel(board: [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ]);
+  }
+
+  List<List<String>> get board => state.board;
+  StatusMessage get statusMessage => state.statusMessage;
 
   // プレイヤーのマークをボードに配置する
   void makeMove(int row, int col) {
     print('makeMove実行');
-    if (_model.isPlaying == false) {
+    if (state.isPlaying == false) {
       return;
     }
     // マスが空白の場合のみマークを配置する
     if (board[row][col].isEmpty) {
-      board[row][col] = _model.currentPlayer;
-      _model.currentPlayer = _model.currentPlayer == 'X' ? 'O' : 'X';
+      List<List<String>> newBoard = board;
+      newBoard[row][col] = state.currentPlayer;
+      state = state.copyWith(board: newBoard);
+      state =
+          state.copyWith(currentPlayer: state.currentPlayer == 'X' ? 'O' : 'X');
     }
 
     if (checkWinner() != null) {
-      if (_model.isDraw) {
-        _model.statusMessage = StatusMessage(
-            message: '${checkWinner()!}!!!!!',
-            color: Colors.blue,
-            fontSize: 60);
+      if (state.isDraw) {
+        state = state.copyWith(
+            statusMessage: StatusMessage(
+                message: '${checkWinner()!}!!!!!',
+                color: Colors.blue,
+                fontSize: 60));
       } else {
-        _model.statusMessage = StatusMessage(
-            message: '${checkWinner()!}の勝利！', color: Colors.red, fontSize: 60);
+        state = state.copyWith(
+            statusMessage: StatusMessage(
+                message: '${checkWinner()!}の勝利！',
+                color: Colors.red,
+                fontSize: 60));
       }
-      _model.isPlaying = false;
+      state = state.copyWith(isPlaying: false);
     } else {
-      statusMessage.message = '${_model.currentPlayer}の番です';
+      state = state.copyWith(
+          statusMessage: StatusMessage(message: '${state.currentPlayer}の番です'));
     }
-    print(_model.board);
-    print(_model.statusMessage.message);
-  }
-
-  // ゲームをリセットするメソッド
-  void resetGame() {
-    _model.board = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-    ];
-    _model.currentPlayer = 'X';
-    _model.isDraw = false;
-    _model.statusMessage = StatusMessage(message: 'リセットしました');
-    _model.isPlaying = true;
-    print(_model.board);
-    print(_model.statusMessage.message);
+    print(state.board);
+    print(state.statusMessage.message);
   }
 
   // 勝敗の判定
@@ -84,19 +88,37 @@ class GameViewModel {
       return board[0][2];
     }
     // 引き分け
-    _model.isDraw = true;
+    state = state.copyWith(isDraw: true);
     for (int row = 0; row < 3; row++) {
       for (int col = 0; col < 3; col++) {
         if (board[row][col].isEmpty) {
-          _model.isDraw = false;
+          state = state.copyWith(isDraw: false);
           break;
         }
       }
     }
-    if (_model.isDraw) {
+    if (state.isDraw) {
       return '引き分け';
     }
     // 勝敗がつかない場合
     return null;
+  }
+
+  // ゲームをリセットするメソッド
+  void resetGame() {
+    state = state.copyWith(
+      board: [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', ''],
+      ],
+      currentPlayer: 'X',
+      isDraw: false,
+      isPlaying: true,
+      statusMessage: StatusMessage(message: 'リセットしました'),
+    );
+
+    print(state.board);
+    print(state.statusMessage.message);
   }
 }
