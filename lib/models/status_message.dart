@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class StatusMessage {
-  String message;
-  Color color;
-  double fontSize;
-  FontWeight fontWeight;
+part 'status_message.freezed.dart';
 
-  StatusMessage({
-    // required 特定のパラメータを必須（nullを許容しない）にする
-    required this.message,
-    this.color = Colors.black,
-    this.fontSize = 24,
-    this.fontWeight = FontWeight.normal,
-  });
+@freezed
+class StatusMessage with _$StatusMessage {
+  const factory StatusMessage({
+    @Default('ゲーム開始') String message,
+    @Default(Colors.black) Color color,
+    @Default(24) double fontSize,
+    @Default(FontWeight.normal) FontWeight fontWeight,
+  }) = _StatusMessage;
 }

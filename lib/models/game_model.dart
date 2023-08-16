@@ -1,26 +1,29 @@
 // Model：ゲームの状態を保持する
+import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/models/status_message.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class GameModel {
-  // ボードの状態を保持するリスト
-  List<List<String>> board;
-  // 現在のプレイヤー（初期値は'×'）
-  String currentPlayer;
-  // 引き分け判定
-  bool isDraw;
-  // ゲーム中か勝負がついたか
-  bool isPlaying;
+// 生成されるdartファイルを記述
+part 'game_model.freezed.dart';
 
-  StatusMessage statusMessage;
-
-  GameModel()
-      : board = [
-          ['', '', ''],
-          ['', '', ''],
-          ['', '', ''],
-        ],
-        currentPlayer = 'X',
-        isDraw = false,
-        statusMessage = StatusMessage(message: 'ゲーム開始'),
-        isPlaying = true;
+@freezed
+class GameModel with _$GameModel {
+  factory GameModel({
+    @Default([
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ])
+    List<List<String>> board,
+    @Default('X') String currentPlayer,
+    @Default(false) bool isDraw,
+    @Default(true) bool isPlaying,
+    @Default(StatusMessage(
+      message: 'ゲーム開始',
+      color: Colors.black,
+      fontSize: 24,
+      fontWeight: FontWeight.normal,
+    ))
+    StatusMessage statusMessage,
+  }) = _GameModel;
 }

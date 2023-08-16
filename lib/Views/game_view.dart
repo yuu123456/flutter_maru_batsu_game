@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_maru_batsu_game/main.dart';
+import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
+// import 'package:flutter_maru_batsu_game/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GameView extends ConsumerWidget {
@@ -57,12 +58,12 @@ class GameStatusView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(gameViewModelPlovider);
+    final gameState = ref.watch(gameViewModelNotifierProvider);
     return Text(
-      viewModel.statusMessage.message,
+      gameState.statusMessage.message,
       style: TextStyle(
-        fontSize: viewModel.statusMessage.fontSize,
-        color: viewModel.statusMessage.color,
+        fontSize: gameState.statusMessage.fontSize,
+        color: gameState.statusMessage.color,
       ),
     );
   }
@@ -73,7 +74,7 @@ class GameBoardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(gameViewModelPlovider);
+    final gameState = ref.watch(gameViewModelNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -85,12 +86,14 @@ class GameBoardView extends ConsumerWidget {
               for (int col = 0; col < 3; col++)
                 ElevatedButton(
                   onPressed: () {
-                    viewModel.makeMove(row, col);
+                    final notifier =
+                        ref.read(gameViewModelNotifierProvider.notifier);
+                    notifier.makeMove(row, col);
                   },
                   style:
                       ElevatedButton.styleFrom(fixedSize: const Size(80, 80)),
                   child: Text(
-                    viewModel.board[row][col],
+                    gameState.board[row][col],
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
@@ -106,11 +109,12 @@ class GameResetButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(gameViewModelPlovider);
+    // final viewModel = ref.watch(gameViewModelNotifierProvider.notifier);
 
     return ElevatedButton(
         onPressed: () {
-          viewModel.resetGame();
+          final notifier = ref.read(gameViewModelNotifierProvider.notifier);
+          notifier.resetGame();
         },
         child: const Text("リセット"));
   }
