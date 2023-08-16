@@ -16,6 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GameModel {
+// @Default([
+//   ['', '', ''],
+//   ['', '', ''],
+//   ['', '', ''],
+// ])
+// List<List<String>> board,
   List<List<String>> get board => throw _privateConstructorUsedError;
   String get currentPlayer => throw _privateConstructorUsedError;
   bool get isDraw => throw _privateConstructorUsedError;
@@ -158,11 +164,7 @@ class __$$_GameModelCopyWithImpl<$Res>
 
 class _$_GameModel implements _GameModel {
   _$_GameModel(
-      {final List<List<String>> board = const [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', '']
-      ],
+      {required final List<List<String>> board,
       this.currentPlayer = 'X',
       this.isDraw = false,
       this.isPlaying = true,
@@ -173,9 +175,20 @@ class _$_GameModel implements _GameModel {
           fontWeight: FontWeight.normal)})
       : _board = board;
 
+// @Default([
+//   ['', '', ''],
+//   ['', '', ''],
+//   ['', '', ''],
+// ])
+// List<List<String>> board,
   final List<List<String>> _board;
+// @Default([
+//   ['', '', ''],
+//   ['', '', ''],
+//   ['', '', ''],
+// ])
+// List<List<String>> board,
   @override
-  @JsonKey()
   List<List<String>> get board {
     if (_board is EqualUnmodifiableListView) return _board;
     // ignore: implicit_dynamic_type
@@ -233,13 +246,18 @@ class _$_GameModel implements _GameModel {
 
 abstract class _GameModel implements GameModel {
   factory _GameModel(
-      {final List<List<String>> board,
+      {required final List<List<String>> board,
       final String currentPlayer,
       final bool isDraw,
       final bool isPlaying,
       final StatusMessage statusMessage}) = _$_GameModel;
 
-  @override
+  @override // @Default([
+//   ['', '', ''],
+//   ['', '', ''],
+//   ['', '', ''],
+// ])
+// List<List<String>> board,
   List<List<String>> get board;
   @override
   String get currentPlayer;

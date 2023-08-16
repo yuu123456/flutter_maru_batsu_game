@@ -7,7 +7,7 @@ part of 'game_view_model.dart';
 // **************************************************************************
 
 String _$gameViewModelNotifierHash() =>
-    r'd51b4e58a430af9fe158e307d35075815fc57390';
+    r'cb85709318594c37971fef9d471f750cd8e2c6e2';
 
 /// See also [GameViewModelNotifier].
 @ProviderFor(GameViewModelNotifier)

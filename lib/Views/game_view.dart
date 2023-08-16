@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
-// import 'package:flutter_maru_batsu_game/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GameView extends ConsumerWidget {
@@ -19,7 +18,6 @@ class GameView extends ConsumerWidget {
           children: [
             Spacer(),
             Expanded(child: GameStatusView()),
-            // Spacer(),
             GameBoardView(),
             SizedBox(height: 20),
             GameResetButton(),

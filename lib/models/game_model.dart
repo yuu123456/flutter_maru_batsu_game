@@ -9,12 +9,7 @@ part 'game_model.freezed.dart';
 @freezed
 class GameModel with _$GameModel {
   factory GameModel({
-    @Default([
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-    ])
-    List<List<String>> board,
+    required List<List<String>> board,
     @Default('X') String currentPlayer,
     @Default(false) bool isDraw,
     @Default(true) bool isPlaying,

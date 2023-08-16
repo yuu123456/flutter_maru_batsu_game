@@ -10,7 +10,11 @@ part 'game_view_model.g.dart';
 class GameViewModelNotifier extends _$GameViewModelNotifier {
   @override
   GameModel build() {
-    return GameModel();
+    return GameModel(board: [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ]);
   }
 
   List<List<String>> get board => state.board;
@@ -24,7 +28,6 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
     }
     // マスが空白の場合のみマークを配置する
     if (board[row][col].isEmpty) {
-      print(board);
       List<List<String>> newBoard = board;
       newBoard[row][col] = state.currentPlayer;
       state = state.copyWith(board: newBoard);
