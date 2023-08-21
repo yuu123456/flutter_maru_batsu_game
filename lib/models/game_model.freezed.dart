@@ -16,17 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GameModel {
-// @Default([
-//   ['', '', ''],
-//   ['', '', ''],
-//   ['', '', ''],
-// ])
-// List<List<String>> board,
   List<List<String>> get board => throw _privateConstructorUsedError;
   String get currentPlayer => throw _privateConstructorUsedError;
   bool get isDraw => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
   StatusMessage get statusMessage => throw _privateConstructorUsedError;
+  Player get playerX => throw _privateConstructorUsedError;
+  Player get playerO => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameModelCopyWith<GameModel> get copyWith =>
@@ -43,9 +39,13 @@ abstract class $GameModelCopyWith<$Res> {
       String currentPlayer,
       bool isDraw,
       bool isPlaying,
-      StatusMessage statusMessage});
+      StatusMessage statusMessage,
+      Player playerX,
+      Player playerO});
 
   $StatusMessageCopyWith<$Res> get statusMessage;
+  $PlayerCopyWith<$Res> get playerX;
+  $PlayerCopyWith<$Res> get playerO;
 }
 
 /// @nodoc
@@ -66,6 +66,8 @@ class _$GameModelCopyWithImpl<$Res, $Val extends GameModel>
     Object? isDraw = null,
     Object? isPlaying = null,
     Object? statusMessage = null,
+    Object? playerX = null,
+    Object? playerO = null,
   }) {
     return _then(_value.copyWith(
       board: null == board
@@ -88,6 +90,14 @@ class _$GameModelCopyWithImpl<$Res, $Val extends GameModel>
           ? _value.statusMessage
           : statusMessage // ignore: cast_nullable_to_non_nullable
               as StatusMessage,
+      playerX: null == playerX
+          ? _value.playerX
+          : playerX // ignore: cast_nullable_to_non_nullable
+              as Player,
+      playerO: null == playerO
+          ? _value.playerO
+          : playerO // ignore: cast_nullable_to_non_nullable
+              as Player,
     ) as $Val);
   }
 
@@ -96,6 +106,22 @@ class _$GameModelCopyWithImpl<$Res, $Val extends GameModel>
   $StatusMessageCopyWith<$Res> get statusMessage {
     return $StatusMessageCopyWith<$Res>(_value.statusMessage, (value) {
       return _then(_value.copyWith(statusMessage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PlayerCopyWith<$Res> get playerX {
+    return $PlayerCopyWith<$Res>(_value.playerX, (value) {
+      return _then(_value.copyWith(playerX: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PlayerCopyWith<$Res> get playerO {
+    return $PlayerCopyWith<$Res>(_value.playerO, (value) {
+      return _then(_value.copyWith(playerO: value) as $Val);
     });
   }
 }
@@ -112,10 +138,16 @@ abstract class _$$_GameModelCopyWith<$Res> implements $GameModelCopyWith<$Res> {
       String currentPlayer,
       bool isDraw,
       bool isPlaying,
-      StatusMessage statusMessage});
+      StatusMessage statusMessage,
+      Player playerX,
+      Player playerO});
 
   @override
   $StatusMessageCopyWith<$Res> get statusMessage;
+  @override
+  $PlayerCopyWith<$Res> get playerX;
+  @override
+  $PlayerCopyWith<$Res> get playerO;
 }
 
 /// @nodoc
@@ -134,6 +166,8 @@ class __$$_GameModelCopyWithImpl<$Res>
     Object? isDraw = null,
     Object? isPlaying = null,
     Object? statusMessage = null,
+    Object? playerX = null,
+    Object? playerO = null,
   }) {
     return _then(_$_GameModel(
       board: null == board
@@ -156,6 +190,14 @@ class __$$_GameModelCopyWithImpl<$Res>
           ? _value.statusMessage
           : statusMessage // ignore: cast_nullable_to_non_nullable
               as StatusMessage,
+      playerX: null == playerX
+          ? _value.playerX
+          : playerX // ignore: cast_nullable_to_non_nullable
+              as Player,
+      playerO: null == playerO
+          ? _value.playerO
+          : playerO // ignore: cast_nullable_to_non_nullable
+              as Player,
     ));
   }
 }
@@ -172,22 +214,12 @@ class _$_GameModel implements _GameModel {
           message: 'ゲーム開始',
           color: Colors.black,
           fontSize: 24,
-          fontWeight: FontWeight.normal)})
+          fontWeight: FontWeight.normal),
+      required this.playerX,
+      required this.playerO})
       : _board = board;
 
-// @Default([
-//   ['', '', ''],
-//   ['', '', ''],
-//   ['', '', ''],
-// ])
-// List<List<String>> board,
   final List<List<String>> _board;
-// @Default([
-//   ['', '', ''],
-//   ['', '', ''],
-//   ['', '', ''],
-// ])
-// List<List<String>> board,
   @override
   List<List<String>> get board {
     if (_board is EqualUnmodifiableListView) return _board;
@@ -207,10 +239,14 @@ class _$_GameModel implements _GameModel {
   @override
   @JsonKey()
   final StatusMessage statusMessage;
+  @override
+  final Player playerX;
+  @override
+  final Player playerO;
 
   @override
   String toString() {
-    return 'GameModel(board: $board, currentPlayer: $currentPlayer, isDraw: $isDraw, isPlaying: $isPlaying, statusMessage: $statusMessage)';
+    return 'GameModel(board: $board, currentPlayer: $currentPlayer, isDraw: $isDraw, isPlaying: $isPlaying, statusMessage: $statusMessage, playerX: $playerX, playerO: $playerO)';
   }
 
   @override
@@ -225,7 +261,9 @@ class _$_GameModel implements _GameModel {
             (identical(other.isPlaying, isPlaying) ||
                 other.isPlaying == isPlaying) &&
             (identical(other.statusMessage, statusMessage) ||
-                other.statusMessage == statusMessage));
+                other.statusMessage == statusMessage) &&
+            (identical(other.playerX, playerX) || other.playerX == playerX) &&
+            (identical(other.playerO, playerO) || other.playerO == playerO));
   }
 
   @override
@@ -235,7 +273,9 @@ class _$_GameModel implements _GameModel {
       currentPlayer,
       isDraw,
       isPlaying,
-      statusMessage);
+      statusMessage,
+      playerX,
+      playerO);
 
   @JsonKey(ignore: true)
   @override
@@ -250,14 +290,11 @@ abstract class _GameModel implements GameModel {
       final String currentPlayer,
       final bool isDraw,
       final bool isPlaying,
-      final StatusMessage statusMessage}) = _$_GameModel;
+      final StatusMessage statusMessage,
+      required final Player playerX,
+      required final Player playerO}) = _$_GameModel;
 
-  @override // @Default([
-//   ['', '', ''],
-//   ['', '', ''],
-//   ['', '', ''],
-// ])
-// List<List<String>> board,
+  @override
   List<List<String>> get board;
   @override
   String get currentPlayer;
@@ -267,6 +304,10 @@ abstract class _GameModel implements GameModel {
   bool get isPlaying;
   @override
   StatusMessage get statusMessage;
+  @override
+  Player get playerX;
+  @override
+  Player get playerO;
   @override
   @JsonKey(ignore: true)
   _$$_GameModelCopyWith<_$_GameModel> get copyWith =>

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../Views/menu_drawer.dart';
+
 class GameView extends ConsumerWidget {
   const GameView({Key? key}) : super(key: key);
 
@@ -17,7 +19,11 @@ class GameView extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Spacer(),
-            Expanded(child: GameStatusView()),
+            Expanded(
+              child: FittedBox(
+                child: GameStatusView(),
+              ),
+            ),
             GameBoardView(),
             SizedBox(height: 20),
             GameResetButton(),
@@ -26,31 +32,6 @@ class GameView extends ConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-class MenuDrawer extends StatelessWidget {
-  // Drawerの項目リスト
-  static const List<String> drawerItems = ['Game', '説明', '設定', '閉じる'];
-
-  const MenuDrawer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-        child: ListView.builder(
-            itemCount: drawerItems.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(drawerItems[index]),
-                onTap: () {
-                  // drawerを閉じる
-                  Navigator.pop(context);
-
-                  // 項目タップ時の処理
-                },
-              );
-            }));
   }
 }
 
@@ -110,8 +91,6 @@ class GameResetButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final viewModel = ref.watch(gameViewModelNotifierProvider.notifier);
-
     return ElevatedButton(
         onPressed: () {
           final notifier = ref.read(gameViewModelNotifierProvider.notifier);

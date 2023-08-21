@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/models/player.dart';
 import 'package:flutter_maru_batsu_game/models/status_message.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,11 +11,14 @@ part 'game_view_model.g.dart';
 class GameViewModelNotifier extends _$GameViewModelNotifier {
   @override
   GameModel build() {
-    return GameModel(board: [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-    ]);
+    return GameModel(
+        board: [
+          ['', '', ''],
+          ['', '', ''],
+          ['', '', ''],
+        ],
+        playerX: Player(isNPC: false, name: 'X'),
+        playerO: Player(isNPC: true, name: 'O'));
   }
 
   List<List<String>> get board => state.board;
@@ -23,6 +27,12 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
   // プレイヤーのマークをボードに配置する
   void makeMove(int row, int col) {
     print('makeMove実行');
+
+    String turnPlayer =
+        state.currentPlayer == 'X' ? state.playerX.name : state.playerO.name;
+    String nextTurnPlayer =
+        state.currentPlayer == 'O' ? state.playerX.name : state.playerO.name;
+
     if (state.isPlaying == false) {
       return;
     }
@@ -45,14 +55,13 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       } else {
         state = state.copyWith(
             statusMessage: StatusMessage(
-                message: '${checkWinner()!}の勝利！',
-                color: Colors.red,
-                fontSize: 60));
+                message: '$turnPlayerの勝利！', color: Colors.red, fontSize: 60));
       }
       state = state.copyWith(isPlaying: false);
     } else {
       state = state.copyWith(
-          statusMessage: StatusMessage(message: '${state.currentPlayer}の番です'));
+          statusMessage: StatusMessage(
+              message: '$nextTurnPlayer(${state.currentPlayer})の番です'));
     }
     print(state.board);
     print(state.statusMessage.message);
@@ -115,10 +124,51 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       currentPlayer: 'X',
       isDraw: false,
       isPlaying: true,
-      statusMessage: StatusMessage(message: 'リセットしました'),
+      statusMessage: const StatusMessage(message: 'リセットしました'),
     );
 
     print(state.board);
     print(state.statusMessage.message);
+    print(state.playerX);
+    print(state.playerO);
+  }
+
+  // NPCに切り替えるメソッド
+  void changeNpcPlayer(Player player) {
+    if (player.isNPC) {
+      final chagedPlayer = player.copyWith(isNPC: !player.isNPC);
+      if (player == state.playerX) {
+        state = state.copyWith(playerX: chagedPlayer);
+      } else if (player == state.playerO) {
+        state = state.copyWith(playerO: chagedPlayer);
+      }
+    } else {
+      if (player == state.playerX) {
+        final chagedPlayer =
+            player.copyWith(isNPC: !player.isNPC, name: 'NPC1');
+        state = state.copyWith(playerX: chagedPlayer);
+      } else if (player == state.playerO) {
+        final chagedPlayer =
+            player.copyWith(isNPC: !player.isNPC, name: 'NPC2');
+        state = state.copyWith(playerO: chagedPlayer);
+      }
+    }
+
+    final chagedPlayer = player.copyWith(isNPC: !player.isNPC);
+    if (player == state.playerX) {
+      state = state.copyWith(playerX: chagedPlayer);
+    } else if (player == state.playerO) {
+      state = state.copyWith(playerO: chagedPlayer);
+    }
+  }
+
+  // プレイヤー名を変更するメソッド
+  void changePlayerName(Player player, String changedName) {
+    final chagedPlayerName = player.copyWith(name: changedName);
+    if (player == state.playerX) {
+      state = state.copyWith(playerX: chagedPlayerName);
+    } else if (player == state.playerO) {
+      state = state.copyWith(playerO: chagedPlayerName);
+    }
   }
 }
