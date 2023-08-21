@@ -32,7 +32,7 @@ class MenuDrawer extends StatelessWidget {
           title: const Text('設定'),
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SettingView()));
+                MaterialPageRoute(builder: (context) => const SettingView()));
           },
         ),
         ListTile(
