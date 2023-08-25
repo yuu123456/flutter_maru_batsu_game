@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/models/match_history.dart';
 // import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,7 +7,12 @@ import 'views/game_view.dart';
 
 // final gameViewModelPlovider = StateProvider((ref) => GameViewModel());
 
-void main() {
+Future<void> main() async {
+  // Flutterバインディングの初期化
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await MatchHistory.database;
+
   runApp(const ProviderScope(
     child: MyApp(),
   ));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/Views/game_view.dart';
+import 'package:flutter_maru_batsu_game/Views/match_history_view.dart';
 
 import 'setting_view.dart';
 
@@ -32,7 +33,16 @@ class MenuDrawer extends StatelessWidget {
           title: const Text('設定'),
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SettingView()));
+                MaterialPageRoute(builder: (context) => const SettingView()));
+          },
+        ),
+        ListTile(
+          title: const Text('対戦履歴'),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MatchHistoryView()));
           },
         ),
         ListTile(
