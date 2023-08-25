@@ -1,7 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/models/match_history.dart';
 import 'package:flutter_maru_batsu_game/models/player.dart';
 import 'package:flutter_maru_batsu_game/models/status_message.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/game_model.dart';
 
@@ -26,8 +28,6 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
 
   // プレイヤーのマークをボードに配置する
   void makeMove(int row, int col) {
-    print('makeMove実行');
-
     String turnPlayer =
         state.currentPlayer == 'X' ? state.playerX.name : state.playerO.name;
     String nextTurnPlayer =
@@ -43,6 +43,9 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       state = state.copyWith(board: newBoard);
       state =
           state.copyWith(currentPlayer: state.currentPlayer == 'X' ? 'O' : 'X');
+      state = state.copyWith(
+          statusMessage: StatusMessage(
+              message: '$nextTurnPlayer(${state.currentPlayer})の番です'));
     }
 
     if (checkWinner() != null) {
@@ -59,12 +62,24 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       }
       state = state.copyWith(isPlaying: false);
     } else {
-      state = state.copyWith(
-          statusMessage: StatusMessage(
-              message: '$nextTurnPlayer(${state.currentPlayer})の番です'));
+      // state = state.copyWith(
+      //     statusMessage: StatusMessage(
+      //         message: '$nextTurnPlayer(${state.currentPlayer})の番です'));
     }
-    print(state.board);
-    print(state.statusMessage.message);
+    cpuX();
+    cpuO();
+  }
+
+  void cpuX() {
+    state.currentPlayer == 'X' && state.playerX.isNPC == true
+        ? moveCPU()
+        : null;
+  }
+
+  void cpuO() {
+    state.currentPlayer == 'O' && state.playerO.isNPC == true
+        ? moveCPU()
+        : null;
   }
 
   // 勝敗の判定
@@ -114,7 +129,20 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
   }
 
   // ゲームをリセットするメソッド
-  void resetGame() {
+  Future<void> resetGame() async {
+    final matchHistoryList = await MatchHistory.getMatchHistorys();
+    final dataCount = matchHistoryList.length;
+
+    MatchHistory matchHis = MatchHistory(
+      dataCount + 1,
+      state.playerX.name,
+      state.playerO.name,
+      state.currentPlayer == 'O' ? 1 : 0,
+      state.isDraw ? 1 : 0,
+      state.isPlaying ? 1 : 0,
+    );
+    await MatchHistory.insertMatchHistory(matchHis);
+
     state = state.copyWith(
       board: [
         ['', '', ''],
@@ -126,11 +154,8 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       isPlaying: true,
       statusMessage: const StatusMessage(message: 'リセットしました'),
     );
-
-    print(state.board);
-    print(state.statusMessage.message);
-    print(state.playerX);
-    print(state.playerO);
+    await Future.delayed(const Duration(seconds: 2));
+    cpuX();
   }
 
   // NPCに切り替えるメソッド
@@ -169,6 +194,54 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       state = state.copyWith(playerX: chagedPlayerName);
     } else if (player == state.playerO) {
       state = state.copyWith(playerO: chagedPlayerName);
+    }
+  }
+
+  int midRow() {
+    if (board[0].length % 2 == 0) {
+      return board[0].length ~/ 2;
+    } else {
+      return (board[0].length - 1) ~/ 2;
+    }
+  }
+
+  int midCol() {
+    if (board.length % 2 == 0) {
+      return board.length ~/ 2;
+    } else {
+      return (board.length - 1) ~/ 2;
+    }
+  }
+
+  // CPUの行動
+  void moveCPU() {
+    if (board[midRow()][midCol()].isEmpty) {
+      makeMove(midRow(), midCol());
+    } else {
+      var randomRow = Random().nextInt(board[0].length);
+      var randomCol = Random().nextInt(board.length);
+      do {
+        randomRow = Random().nextInt(board[0].length);
+        randomCol = Random().nextInt(board.length);
+      } while (board[randomRow].isEmpty);
+
+      makeMove(randomRow, randomCol);
+    }
+  }
+
+  void goCPUWin() {
+    bool isReach() {
+      for (int row = 0; row < board.length - 1; row++) {
+        for (int col = 0; col < board[row].length - 1; col++) {
+          if (board[row][col] == board[row][col + 1] ||
+              board[row][col] == board[row][col + 2] ||
+              board[row][col] == board[row + 1][col] ||
+              board[row][col] == board[row + 2][col]) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 }

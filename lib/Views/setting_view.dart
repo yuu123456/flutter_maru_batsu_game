@@ -115,7 +115,6 @@ class PlayerNameTextField extends ConsumerWidget {
       ),
       onChanged: (value) {
         notifier.changePlayerName(_player, value);
-        print(ref.watch(gameViewModelNotifierProvider).playerX);
       },
     );
   }
