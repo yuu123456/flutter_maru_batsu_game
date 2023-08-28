@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/Views/weather_view.dart';
 import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
+import 'package:flutter_maru_batsu_game/view_models/weather_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Views/menu_drawer.dart';
@@ -27,6 +29,7 @@ class GameView extends ConsumerWidget {
             GameBoardView(),
             SizedBox(height: 20),
             GameResetButton(),
+            Expanded(child: WeatherView()),
             Spacer(),
           ],
         ),
@@ -95,6 +98,9 @@ class GameResetButton extends ConsumerWidget {
         onPressed: () {
           final notifier = ref.read(gameViewModelNotifierProvider.notifier);
           notifier.resetGame();
+
+          final weatherNotifier = ref.read(weatherNotifierProvider.notifier);
+          weatherNotifier.updateState();
         },
         child: const Text("リセット"));
   }
