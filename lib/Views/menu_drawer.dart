@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_maru_batsu_game/Views/game_view.dart';
+import 'package:flutter_maru_batsu_game/Views/hooks_view.dart';
 import 'package:flutter_maru_batsu_game/Views/match_history_view.dart';
 
 import 'setting_view.dart';
@@ -43,6 +44,13 @@ class MenuDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const MatchHistoryView()));
+          },
+        ),
+        ListTile(
+          title: const Text('Hooks'),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HooksView()));
           },
         ),
         ListTile(
