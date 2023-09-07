@@ -15,19 +15,25 @@ class WeatherView extends ConsumerWidget {
 
     // AsyncValueの時は、各状態を定義可能
     final locationWidget = state.when(
-      data: (d) => Text('${d.name}の天気：'),
+      data: (d) => Text(
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          '${d.name}の天気：'),
       error: (e, s) => Text('エラー$e'), //eがエラー、sがエラーの場所
       loading: () => const CircularProgressIndicator(),
     );
 
     final tempWidget = state.when(
-      data: (d) => Text('現在の気温：${d.main?.temp}℃'),
+      data: (d) => Text(
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          '現在の気温：${d.main?.temp}℃'),
       error: (e, s) => Text('エラー$e'), //eがエラー、sがエラーの場所
       loading: () => const CircularProgressIndicator(),
     );
 
     final humifityWidget = state.when(
-      data: (d) => Text('湿度${d.main?.humidity}％'),
+      data: (d) => Text(
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          '湿度：${d.main?.humidity}％'),
       error: (e, s) => Text('エラー$e'), //eがエラー、sがエラーの場所
       loading: () => const CircularProgressIndicator(),
     );
@@ -39,7 +45,11 @@ class WeatherView extends ConsumerWidget {
           url,
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) {
-              return child;
+              return SizedBox(
+                width: 80,
+                height: 80,
+                child: child,
+              );
             } else {
               return const CircularProgressIndicator();
             }
@@ -51,20 +61,26 @@ class WeatherView extends ConsumerWidget {
       loading: () => const CircularProgressIndicator(),
     );
 
-    return FittedBox(
-      fit: BoxFit.fitWidth,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              locationWidget,
-              iconWidget,
-            ],
-          ),
-          tempWidget,
-          humifityWidget,
-        ],
+    return Container(
+      width: double.infinity,
+      height: 200,
+      color: Colors.green,
+      alignment: Alignment.topCenter,
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                locationWidget,
+                iconWidget,
+              ],
+            ),
+            tempWidget,
+            humifityWidget,
+          ],
+        ),
       ),
     );
   }
