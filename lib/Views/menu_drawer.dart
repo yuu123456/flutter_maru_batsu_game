@@ -47,7 +47,7 @@ class MenuDrawer extends StatelessWidget {
           },
         ),
         ListTile(
-          title: const Text('Hooks'),
+          title: const Text('手番決めに迷ったら！'),
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const HooksView()));

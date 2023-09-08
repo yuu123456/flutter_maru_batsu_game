@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../views/menu_drawer.dart';
+import 'dart:math' as math;
 
 class HooksView extends HookWidget {
   const HooksView({super.key});
   @override
   Widget build(BuildContext context) {
-    final count = useState(0);
+    final yourTurn = useState('ボタンをタップで！');
 
     useEffect(() {
       debugPrint('画面が表示された');
@@ -23,24 +24,36 @@ class HooksView extends HookWidget {
       return () {
         debugPrint('countが変化した（retrun後）');
       };
-    }, [count.value]);
+    }, [yourTurn.value]);
 
-    final text = Text('現在のカウントは${count.value}');
+    final text = Text(
+      'あなたの手番は・・・${yourTurn.value}',
+      style: const TextStyle(
+          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
+    );
 
     final button = ElevatedButton(
       onPressed: () {
-        count.value++;
+        var random = math.Random();
+
+        yourTurn.value = random.nextBool() ? '先手' : '後手';
       },
-      child: const Text('ボタン'),
+      child: const Text('ジャッジメント！'),
     );
 
+    const sizedBox = SizedBox(width: 20, height: 29);
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Hooksお試し画面'),
+      appBar: AppBar(
+        title: const Text('あなたは先手？後手？'),
+      ),
+      drawer: const MenuDrawer(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [text, sizedBox, button],
         ),
-        drawer: const MenuDrawer(),
-        body: Column(
-          children: [text, button],
-        ));
+      ),
+    );
   }
 }
