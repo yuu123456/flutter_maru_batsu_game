@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Views/menu_drawer.dart';
 import 'admob_view.dart';
+import 'dart:math' as math;
 
 class GameView extends ConsumerWidget {
   const GameView({Key? key}) : super(key: key);
@@ -107,7 +108,8 @@ class GameResetButton extends ConsumerWidget {
           notifier.resetGame();
 
           final weatherNotifier = ref.read(weatherNotifierProvider.notifier);
-          weatherNotifier.updateState();
+          var random = math.Random();
+          random.nextInt(10) > 8 ? weatherNotifier.updateState() : null;
         },
         child: const Text("リセット"));
   }
