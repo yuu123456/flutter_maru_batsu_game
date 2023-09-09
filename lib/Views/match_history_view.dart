@@ -54,7 +54,9 @@ class MatchHistoryTable extends StatelessWidget {
                         child: Text(
                           dataColumn,
                           style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

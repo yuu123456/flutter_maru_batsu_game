@@ -19,8 +19,8 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
           ['', '', ''],
           ['', '', ''],
         ],
-        playerX: Player(isNPC: false, name: 'X'),
-        playerO: Player(isNPC: true, name: 'O'));
+        playerX: Player(isNPC: false, name: 'User'),
+        playerO: Player(isNPC: true, name: 'NPC2'));
   }
 
   List<List<String>> get board => state.board;
