@@ -5,6 +5,7 @@ import 'package:flutter_maru_batsu_game/view_models/weather_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Views/menu_drawer.dart';
+import 'admob_view.dart';
 
 class GameView extends ConsumerWidget {
   const GameView({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class GameView extends ConsumerWidget {
             SizedBox(height: 20),
             GameResetButton(),
             Spacer(),
+            AdmobView(),
             WeatherView(),
           ],
         ),

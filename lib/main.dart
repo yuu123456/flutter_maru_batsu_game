@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_maru_batsu_game/models/match_history.dart';
 // import 'package:flutter_maru_batsu_game/view_models/game_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'views/game_view.dart';
 
@@ -14,6 +15,9 @@ Future<void> main() async {
 
   //envの読み込み設定
   await dotenv.load(fileName: '.env');
+
+  // AdmobのSDK初期化
+  MobileAds.instance.initialize();
 
   await MatchHistory.database;
 
