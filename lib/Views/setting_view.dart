@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/Views/admob_view.dart';
 import 'package:flutter_maru_batsu_game/models/player.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,6 +37,7 @@ class SettingView extends ConsumerWidget {
             const Spacer(
               flex: 1,
             ),
+            const AdmobView(),
           ],
         ),
       ),

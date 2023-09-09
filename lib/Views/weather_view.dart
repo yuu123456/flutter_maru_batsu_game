@@ -9,6 +9,7 @@ class WeatherView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(weatherNotifierProvider);
+    double screenHight = MediaQuery.of(context).size.height;
 
     String makeURL(String iconId) =>
         'https://openweathermap.org/img/wn/$iconId@2x.png';
@@ -63,7 +64,7 @@ class WeatherView extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      height: 200,
+      height: screenHight / 5,
       color: Colors.green,
       alignment: Alignment.topCenter,
       child: FittedBox(
