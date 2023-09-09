@@ -148,7 +148,9 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       currentPlayer: 'X',
       isDraw: false,
       isPlaying: true,
-      statusMessage: const StatusMessage(message: 'リセットしました'),
+      statusMessage: state.playerX.isNPC
+          ? const StatusMessage(message: 'NPC思考中・・・')
+          : const StatusMessage(message: 'リセットしました'),
     );
     await Future.delayed(const Duration(seconds: 2));
     cpuX();

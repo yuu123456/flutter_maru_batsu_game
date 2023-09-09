@@ -102,6 +102,8 @@ class GameResetButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final gameState = ref.watch(gameViewModelNotifierProvider);
+
     return ElevatedButton(
         onPressed: () {
           final notifier = ref.read(gameViewModelNotifierProvider.notifier);
@@ -111,6 +113,7 @@ class GameResetButton extends ConsumerWidget {
           var random = math.Random();
           random.nextInt(10) > 8 ? weatherNotifier.updateState() : null;
         },
-        child: const Text("リセット"));
+        child:
+            gameState.isPlaying ? const Text("リセット") : const Text('保存＆リセット'));
   }
 }
