@@ -62,6 +62,9 @@ class GameBoardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final gameState = ref.watch(gameViewModelNotifierProvider);
+    bool isTurnPlayerNPC = gameState.currentPlayer == 'X'
+        ? gameState.playerX.isNPC
+        : gameState.playerO.isNPC;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -72,11 +75,13 @@ class GameBoardView extends ConsumerWidget {
             children: [
               for (int col = 0; col < 3; col++)
                 ElevatedButton(
-                  onPressed: () {
-                    final notifier =
-                        ref.read(gameViewModelNotifierProvider.notifier);
-                    notifier.makeMove(row, col);
-                  },
+                  onPressed: isTurnPlayerNPC
+                      ? null
+                      : () {
+                          final notifier =
+                              ref.read(gameViewModelNotifierProvider.notifier);
+                          notifier.makeMove(row, col);
+                        },
                   style:
                       ElevatedButton.styleFrom(fixedSize: const Size(80, 80)),
                   child: Text(
