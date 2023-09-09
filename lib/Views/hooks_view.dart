@@ -46,6 +46,7 @@ class HooksView extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('あなたは先手？後手？'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: Center(

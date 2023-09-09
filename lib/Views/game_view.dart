@@ -16,6 +16,7 @@ class GameView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('まるばつゲーム'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: const Center(

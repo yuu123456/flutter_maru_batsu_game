@@ -12,6 +12,7 @@ class MatchHistoryView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('対戦履歴'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: const SingleChildScrollView(

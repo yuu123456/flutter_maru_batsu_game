@@ -16,6 +16,7 @@ class SettingView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定画面'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: Center(
