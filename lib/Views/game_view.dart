@@ -76,7 +76,7 @@ class GameBoardView extends ConsumerWidget {
             children: [
               for (int col = 0; col < 3; col++)
                 ElevatedButton(
-                  onPressed: isTurnPlayerNPC
+                  onPressed: isTurnPlayerNPC || !gameState.isPlaying
                       ? null
                       : () {
                           final notifier =
