@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Views/menu_drawer.dart';
 import 'admob_view.dart';
+import 'dart:math' as math;
 
 class GameView extends ConsumerWidget {
   const GameView({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class GameView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('まるばつゲーム'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: const Center(
@@ -62,6 +64,9 @@ class GameBoardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final gameState = ref.watch(gameViewModelNotifierProvider);
+    bool isTurnPlayerNPC = gameState.currentPlayer == 'X'
+        ? gameState.playerX.isNPC
+        : gameState.playerO.isNPC;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -72,11 +77,13 @@ class GameBoardView extends ConsumerWidget {
             children: [
               for (int col = 0; col < 3; col++)
                 ElevatedButton(
-                  onPressed: () {
-                    final notifier =
-                        ref.read(gameViewModelNotifierProvider.notifier);
-                    notifier.makeMove(row, col);
-                  },
+                  onPressed: isTurnPlayerNPC || !gameState.isPlaying
+                      ? null
+                      : () {
+                          final notifier =
+                              ref.read(gameViewModelNotifierProvider.notifier);
+                          notifier.makeMove(row, col);
+                        },
                   style:
                       ElevatedButton.styleFrom(fixedSize: const Size(80, 80)),
                   child: Text(
@@ -96,14 +103,18 @@ class GameResetButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final gameState = ref.watch(gameViewModelNotifierProvider);
+
     return ElevatedButton(
         onPressed: () {
           final notifier = ref.read(gameViewModelNotifierProvider.notifier);
           notifier.resetGame();
 
           final weatherNotifier = ref.read(weatherNotifierProvider.notifier);
-          weatherNotifier.updateState();
+          var random = math.Random();
+          random.nextInt(10) > 8 ? weatherNotifier.updateState() : null;
         },
-        child: const Text("リセット"));
+        child:
+            gameState.isPlaying ? const Text("リセット") : const Text('保存＆リセット'));
   }
 }

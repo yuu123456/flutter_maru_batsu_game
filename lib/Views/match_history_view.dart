@@ -12,6 +12,7 @@ class MatchHistoryView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('対戦履歴'),
+        backgroundColor: Colors.blue,
       ),
       drawer: const MenuDrawer(),
       body: const SingleChildScrollView(
@@ -53,7 +54,9 @@ class MatchHistoryTable extends StatelessWidget {
                         child: Text(
                           dataColumn,
                           style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
