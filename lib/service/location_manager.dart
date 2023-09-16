@@ -41,10 +41,12 @@ class LocationManager {
     // 位置情報へのアクセス権限があるか
     permissionStatus = await location.hasPermission();
     // ない場合
-    if (permissionStatus == PermissionStatus.denied) {
+    if (permissionStatus == PermissionStatus.denied ||
+        permissionStatus == PermissionStatus.deniedForever) {
       // リクエストを実行
       permissionStatus = await location.requestPermission();
-      if (permissionStatus != PermissionStatus.granted) {
+      if (permissionStatus == PermissionStatus.denied ||
+          permissionStatus == PermissionStatus.deniedForever) {
         print('位置情報権限が無効');
         return false;
       }
