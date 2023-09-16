@@ -29,9 +29,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。</string>
+	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。詳細な位置情報が許可されない場合、読み込みに時間がかかる場合があります。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。</string>
+	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。詳細な位置情報が許可されない場合、読み込みに時間がかかる場合があります。</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
