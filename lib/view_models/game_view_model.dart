@@ -19,8 +19,8 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
           ['', '', ''],
           ['', '', ''],
         ],
-        playerX: Player(isNPC: false, name: 'X'),
-        playerO: Player(isNPC: true, name: 'O'));
+        playerX: Player(isNPC: false, name: 'User'),
+        playerO: Player(isNPC: true, name: 'NPC2'));
   }
 
   List<List<String>> get board => state.board;
@@ -61,10 +61,6 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
                 message: '$turnPlayerの勝利！', color: Colors.red, fontSize: 60));
       }
       state = state.copyWith(isPlaying: false);
-    } else {
-      // state = state.copyWith(
-      //     statusMessage: StatusMessage(
-      //         message: '$nextTurnPlayer(${state.currentPlayer})の番です'));
     }
     cpuX();
     cpuO();
@@ -152,7 +148,9 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       currentPlayer: 'X',
       isDraw: false,
       isPlaying: true,
-      statusMessage: const StatusMessage(message: 'リセットしました'),
+      statusMessage: state.playerX.isNPC
+          ? const StatusMessage(message: 'NPC思考中・・・')
+          : const StatusMessage(message: 'リセットしました'),
     );
     await Future.delayed(const Duration(seconds: 2));
     cpuX();
@@ -213,8 +211,7 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
     }
   }
 
-  // CPUの行動
-  void moveCPU() {
+  void randomMove() {
     if (board[midRow()][midCol()].isEmpty) {
       makeMove(midRow(), midCol());
     } else {
@@ -229,19 +226,81 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
     }
   }
 
+  // CPUの行動
+  void moveCPU() {
+    goCPUWin();
+  }
+
   void goCPUWin() {
-    bool isReach() {
-      for (int row = 0; row < board.length - 1; row++) {
-        for (int col = 0; col < board[row].length - 1; col++) {
-          if (board[row][col] == board[row][col + 1] ||
-              board[row][col] == board[row][col + 2] ||
-              board[row][col] == board[row + 1][col] ||
-              board[row][col] == board[row + 2][col]) {
-            return true;
+    int emptyRow;
+    int emptyCol;
+    int emptyRowCol;
+
+    var player = state.currentPlayer;
+
+    for (int i = 0; i < 2; i++) {
+      var verticalArray = [];
+      var rightDiagonalArray = [];
+      var leftDiagonalArray = [];
+
+      for (int row = 0; row < board.length; row++) {
+        for (int col = 0; col < board[row].length; col++) {
+          if (row == col) {
+            leftDiagonalArray.add(board[row][col]);
+          }
+          if (row + col == board.length - 1) {
+            rightDiagonalArray.add(board[row][col]);
+          }
+
+          // 横方向リーチの時、攻める
+          if (board[row].where((element) => element == player).length ==
+              board[row].length - 1) {
+            // 空白のインデックスを取得
+            emptyCol = board[row].indexOf('');
+            if (emptyCol >= 0) {
+              return makeMove(row, emptyCol);
+            }
+          }
+          verticalArray = [];
+          // 縦がリーチの時、攻める
+          for (int i = 0; i < board.length; i++) {
+            verticalArray.add(board[i][col]);
+          }
+          if (verticalArray.where((element) => element == player).length ==
+              verticalArray.length - 1) {
+            // 空白のインデックスを取得
+            emptyRow = verticalArray.indexOf('');
+            print(emptyRow);
+            if (emptyRow >= 0) {
+              return makeMove(emptyRow, col);
+            }
           }
         }
       }
-      return false;
+      // 左対角リーチの時、攻める
+      if (leftDiagonalArray.where((element) => element == player).length ==
+          leftDiagonalArray.length - 1) {
+        // 空白のインデックスを取得
+        emptyRowCol = leftDiagonalArray.indexOf('');
+        print(emptyRowCol);
+        if (emptyRowCol >= 0) {
+          return makeMove(emptyRowCol, emptyRowCol);
+        }
+      }
+      // 右対角リーチの時、攻める
+      if (rightDiagonalArray.where((element) => element == player).length ==
+          rightDiagonalArray.length - 1) {
+        // 空白のインデックスを取得
+        emptyRow = rightDiagonalArray.indexOf('');
+        print(emptyRow);
+        if (emptyRow >= 0) {
+          emptyCol = board.length - 1 - emptyRow;
+          return makeMove(emptyRow, emptyCol);
+        }
+      }
+      player = player == 'X' ? 'O' : 'X';
     }
+
+    return randomMove();
   }
 }

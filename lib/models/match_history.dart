@@ -38,7 +38,7 @@ class MatchHistory {
   //
   static Future<Database> get database async {
     // openDatabase() データベースに接続
-    final Future<Database> _database = openDatabase(
+    final Future<Database> database = openDatabase(
         // getDatabasesPath() データベースファイルを保存するパス取得
         join(await getDatabasesPath(), 'match_history_database.db'),
         version: 1, onCreate: ((db, version) {
@@ -57,7 +57,7 @@ class MatchHistory {
         ''',
       );
     }));
-    return _database;
+    return database;
   }
 
   // 保存処理

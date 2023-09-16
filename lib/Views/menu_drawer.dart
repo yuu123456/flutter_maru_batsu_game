@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maru_batsu_game/Views/admob_view.dart';
 import 'package:flutter_maru_batsu_game/Views/game_view.dart';
+import 'package:flutter_maru_batsu_game/Views/hooks_view.dart';
 import 'package:flutter_maru_batsu_game/Views/match_history_view.dart';
 
 import 'setting_view.dart';
@@ -22,6 +24,7 @@ class MenuDrawer extends StatelessWidget {
           ),
           child: Text('メニュー'),
         ),
+        const AdmobView(),
         ListTile(
           title: const Text('ゲーム'),
           onTap: () {
@@ -43,6 +46,13 @@ class MenuDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const MatchHistoryView()));
+          },
+        ),
+        ListTile(
+          title: const Text('手番決めに迷ったら！'),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HooksView()));
           },
         ),
         ListTile(
