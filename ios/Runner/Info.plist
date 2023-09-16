@@ -25,13 +25,13 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-1746566055724940~9148049167</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Required to post location information when posting photos and videos.</string>
+	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Required to post location information when posting photos and videos.</string>
+	<string>ゲーム画面にてゲームに集中していても洗濯物を気にしなくても良いように、現在地の天気を表示するために利用されます。</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
