@@ -82,31 +82,62 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
   String? checkWinner() {
     // 横のチェック
     for (int row = 0; row < 3; row++) {
-      if (board[row][0] == board[row][1] &&
-          board[row][1] == board[row][2] &&
+      if (board[row].where((element) => element == board[row][0]).length ==
+              board[row].length &&
           board[row][0].isNotEmpty) {
         return board[row][0];
       }
     }
+
     // 縦のチェック
     for (int col = 0; col < 3; col++) {
-      if (board[0][col] == board[1][col] &&
-          board[1][col] == board[2][col] &&
+      var verticalArray = [];
+      for (int i = 0; i < board.length; i++) {
+        verticalArray.add(board[i][col]);
+      }
+      if (verticalArray.where((element) => element == board[0][col]).length ==
+              verticalArray.length &&
           board[0][col].isNotEmpty) {
         return board[0][col];
       }
     }
     // 斜めのラインをチェック
-    if (board[0][0] == board[1][1] &&
-        board[1][1] == board[2][2] &&
+    // if (board[0][0] == board[1][1] &&
+    //     board[1][1] == board[2][2] &&
+    //     board[0][0].isNotEmpty) {
+    //   return board[0][0];
+    // }
+    // if (board[0][2] == board[1][1] &&
+    //     board[1][1] == board[2][0] &&
+    //     board[0][2].isNotEmpty) {
+    //   return board[0][2];
+    // }
+
+    var rightDiagonalArray = [];
+    var leftDiagonalArray = [];
+    for (int row = 0; row < 3; row++) {
+      for (int col = 0; col < 3; col++) {
+        if (row == col) {
+          leftDiagonalArray.add(board[row][col]);
+        }
+        if (row + col == board.length - 1) {
+          rightDiagonalArray.add(board[row][col]);
+        }
+      }
+    }
+    if (leftDiagonalArray.where((element) => element == board[0][0]).length ==
+            board.length &&
         board[0][0].isNotEmpty) {
       return board[0][0];
     }
-    if (board[0][2] == board[1][1] &&
-        board[1][1] == board[2][0] &&
-        board[0][2].isNotEmpty) {
-      return board[0][2];
+    if (rightDiagonalArray
+                .where((element) => element == board[0][board.length - 1])
+                .length ==
+            board.length &&
+        board[0][board.length - 1].isNotEmpty) {
+      return board[0][board.length - 1];
     }
+
     // 引き分け
     state = state.copyWith(isDraw: true);
     for (int row = 0; row < 3; row++) {
