@@ -102,17 +102,6 @@ class GameViewModelNotifier extends _$GameViewModelNotifier {
       }
     }
     // 斜めのラインをチェック
-    // if (board[0][0] == board[1][1] &&
-    //     board[1][1] == board[2][2] &&
-    //     board[0][0].isNotEmpty) {
-    //   return board[0][0];
-    // }
-    // if (board[0][2] == board[1][1] &&
-    //     board[1][1] == board[2][0] &&
-    //     board[0][2].isNotEmpty) {
-    //   return board[0][2];
-    // }
-
     var rightDiagonalArray = [];
     var leftDiagonalArray = [];
     for (int row = 0; row < 3; row++) {
